@@ -5,15 +5,140 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:VoiceWordAWS"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    
-    Width="800"
-    Height="450"
-    mc:Ignorable="d"
-
     Title="AWS Polly"
-    >
-  
-       
+    Width="1280"
+    Height="720"
+    mc:Ignorable="d">
+
+    <DockPanel >
+
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Закрыть" />
+            </MenuItem>
+            <MenuItem Header="Настройки" />
+        </Menu>
+
+        <StackPanel Orientation="Vertical">
+
+
+            <Border BorderBrush="DarkGray" BorderThickness="1">
+                <StackPanel
+                    MinHeight="30"
+                    Margin="15,10,0,10"
+                    Orientation="Horizontal">
+                    <TextBlock Margin="0,0,0,0" VerticalAlignment="Center">URL:</TextBlock>
+                    <TextBox
+                        MinWidth="700px"
+                        MaxWidth="900px"
+                        Margin="20,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalContentAlignment="Center" 
+                        TextWrapping="Wrap"
+                        />
+
+             
+                    <Button
+                        Width="150"
+                        Height="30"
+                        Margin="15,0,0,0"
+                        HorizontalAlignment="Left"
+                        Content="Найти слова"
+                        ToolTip="Начать парсинг слов со страницы URL" 
+                        VerticalAlignment="Center"/>
+
+
+                </StackPanel>
+            </Border>
+
+
+            <StackPanel
+                MinHeight="500"
+                Margin="15,30,0,0"
+                Orientation="Horizontal">
+                <GroupBox
+                    MinWidth="300"
+                    Background="WhiteSmoke"
+                    BorderBrush="DarkGray"
+                    BorderThickness="1"
+                    Header="Найденные слова">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel
+                            Height="50"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Orientation="Horizontal">
+                            <Button Width="100" Margin="10,10,10,10">Снять выбор</Button>
+                            <Button Width="100" Margin="0,10,10,10">Выбрать все</Button>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0">
+                    <Button
+                        Width="150"
+                        Height="30"
+                        Content="Добавить в фильтр"
+                        ToolTip="Добавить в фильтр выделенные слова" 
+                        VerticalAlignment="Center"/>
+                    <Button
+                        Width="150"
+                        Height="30"
+                        Content="Отфильтровать"
+                        ToolTip="Отфильтровать выделенные слова" 
+                        VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0">
+                        <Button
+                            Width="150"
+                            Height="30"
+                            Content="Озвучить"
+                            ToolTip="Озвучить выделенные слова из списка не отфильтрованных" 
+                            VerticalAlignment="Center"/>
+
+                    </StackPanel>
+                </StackPanel>
+
+
+                <GroupBox
+                    MinWidth="300"
+                    Background="WhiteSmoke"
+                    BorderBrush="DarkGray"
+                    BorderThickness="1"
+                    Margin="20, 0, 0, 0"
+                    Header="Отфильтрованные слова">
+                    <StackPanel>
+                        <StackPanel
+                            Height="50"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Orientation="Horizontal">
+                            <Button Width="100" Margin="10,10,10,10">Снять выбор</Button>
+                            <Button Width="100" Margin="0,10,10,10">Выбрать все</Button>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <StackPanel Orientation="Vertical" Margin="20, 0, 0, 0">
+                    <Button
+                        Width="150"
+                        Height="30"
+                        Content="Озвучить"
+                        ToolTip="Озвучить выделенные слова из списка отфильтрованных" 
+                        VerticalAlignment="Center"/>
+          
+                </StackPanel>
+
+
+            </StackPanel>
+
+
+
+        </StackPanel>
+
+
+
+
+
+    </DockPanel>
 
 
 
