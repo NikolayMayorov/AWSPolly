@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VoiceWordAWS.Sevices;
 
 
 namespace VoiceWordAWS
@@ -23,6 +24,23 @@ namespace VoiceWordAWS
         public MainWindow()
         {
             InitializeComponent();
+
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+      
+            var url = "https://lim-english.com/posts/prostie-teksti-na-angliiskom-dlya-nachinaushih/";
+          //  var url = "https://catchenglish.ru/teksty/teksty-dlya-6-go-klassa/astronomy.html";
+            string resHtml = TextService.GetHtmlFromWeb(url);
+
+            var resSimple = TextService.GetTextFromHtml(resHtml);
+
+            var resEng = TextService.GetEngText(resSimple);
+
+            var arr = TextService.GetWords(resEng).ToArray();
+
+            
 
         }
     }
