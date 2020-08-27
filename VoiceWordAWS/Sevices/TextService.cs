@@ -7,14 +7,14 @@ using HtmlAgilityPack;
 
 namespace VoiceWordAWS.Sevices
 {
-    public static class TextService
+    public  class TextService
     {
-        private static char[] split = { '\t', '\r', '\n', ' ' };
+        private  char[] split = { '\t', '\r', '\n', ' ' };
 
         /// <summary>
         /// Получение html документа
         /// </summary>
-        public static string GetHtmlFromWeb(string url)
+        public  string GetHtmlFromWeb(string url)
         {
             var webGet = new HtmlWeb();
             var doc = webGet.Load(url: url);
@@ -25,7 +25,7 @@ namespace VoiceWordAWS.Sevices
         /// <summary>
         /// Парсинг HTML документа. Получение только текста 
         /// </summary>
-        public static string GetTextFromHtml(string htmlText)
+        public  string GetTextFromHtml(string htmlText)
         {
             var patternTags = @"<[\w\W]*?>";
 
@@ -33,7 +33,7 @@ namespace VoiceWordAWS.Sevices
 
             var patternStyle = @"<style[\w\W]*?/style>";
 
-            var patternHead = @"<head[\w\W]*?/head>";
+          //  var patternHead = @"<head[\w\W]*?/head>";
 
             var patternBody = @"<body[\w\W]*?/body>";
 
@@ -99,7 +99,7 @@ namespace VoiceWordAWS.Sevices
         /// <summary>
         /// Получение только английского текста
         /// </summary>
-        public static string GetEngText(string text)
+        public  string GetEngText(string text)
         {
             var result = string.Empty;
 
@@ -116,7 +116,7 @@ namespace VoiceWordAWS.Sevices
         /// <summary>
         /// Получение из текста не повторяющихся слов
         /// </summary>
-        public static IEnumerable<string> GetWords(string text)
+        public  IEnumerable<string> GetWords(string text)
         {
             
             return text.ToLower().Split(separator: split, options: StringSplitOptions.RemoveEmptyEntries).Distinct();
