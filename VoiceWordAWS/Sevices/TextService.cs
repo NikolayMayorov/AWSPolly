@@ -105,8 +105,15 @@ namespace VoiceWordAWS.Sevices
 
             foreach (var ch in text)
             {
-                if ((ch >= 0x61 && ch <= 0x7A) || (ch >= 0x41 && ch <= 0x5A) || ch == 0x20 || ch == 0x27)
-                    result += ch;
+                if (char.IsLetter(ch))
+                {
+                    if ((ch >= 0x61 && ch <= 0x7A) || (ch >= 0x41 && ch <= 0x5A))
+                        result += ch;
+                }
+                else if (char.IsPunctuation(ch) || char.IsSeparator(ch))
+                {
+                    result += " ";
+                }
             }
 
             return result;

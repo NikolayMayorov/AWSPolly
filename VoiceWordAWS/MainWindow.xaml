@@ -42,8 +42,7 @@
                         TextWrapping="Wrap"
                         Text="{Binding Path=URL, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         />
-          
-             
+
                     <Button
                         Width="150"
                         Height="30"
@@ -51,7 +50,8 @@
                         HorizontalAlignment="Left"
                         Content="Найти слова"
                         ToolTip="Начать парсинг слов со страницы URL" 
-                        VerticalAlignment="Center"/>
+                        VerticalAlignment="Center"
+                        Command="{Binding GetText}"/>
 
 
                 </StackPanel>
@@ -140,7 +140,7 @@
 
         </StackPanel>
 
-        <Button  Command="{Binding GetText,NotifyOnSourceUpdated=True}">Test btn</Button>
+      
 
         
 

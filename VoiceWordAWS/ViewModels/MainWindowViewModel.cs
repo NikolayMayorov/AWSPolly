@@ -15,7 +15,7 @@ namespace VoiceWordAWS.ViewModels
     {
         private string _title = "Voice word";
 
-        private string _url = String.Empty;
+        private string _url = "https://catchenglish.ru/teksty/teksty-dlya-6-go-klassa/astronomy.html";
 
         private readonly TextService _textService;
 
@@ -33,15 +33,23 @@ namespace VoiceWordAWS.ViewModels
 
         private bool CanOnGetText()
         {
-            return !string.IsNullOrWhiteSpace(URL);
+            return !string.IsNullOrWhiteSpace(_url);
 
         }
 
         private void OnGetText()
         {
-            var url = "https://lim-english.com/posts/prostie-teksti-na-angliiskom-dlya-nachinaushih/";
+            //var url = "https://lim-english.com/posts/prostie-teksti-na-angliiskom-dlya-nachinaushih/";
             //  var url = "https://catchenglish.ru/teksty/teksty-dlya-6-go-klassa/astronomy.html";
-            string resHtml = _textService.GetHtmlFromWeb(_url);
+            string resHtml = String.Empty;
+            try
+            {
+                resHtml = _textService.GetHtmlFromWeb(_url);
+            }
+            catch
+            {
+                //сделать вывод сообщения об ишибке
+            }
 
             var resSimple = _textService.GetTextFromHtml(resHtml);
 
@@ -63,8 +71,8 @@ namespace VoiceWordAWS.ViewModels
 
             set
             {
-                GetText.RaiseCanExecuteChanged();
                 Set(ref _url, value);
+                GetText.RaiseCanExecuteChanged();
             }
         }
     }
