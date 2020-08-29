@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
-
 using Amazon;
 using Amazon.Polly;
 using Amazon.Polly.Model;
@@ -18,33 +16,60 @@ namespace VoiceWordAWS.Model
 
         public PollyModel(string accessKey, string secretKey)
         {
-            awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
+            awsCredentials = new BasicAWSCredentials(accessKey: accessKey, secretKey: secretKey);
         }
 
         public void VoiсeWord(string word, string pathFolder)
         {
-            using (var client = new AmazonPollyClient(awsCredentials, Amazon.RegionEndpoint.USEast1))
+            using (var client = new AmazonPollyClient(credentials: awsCredentials, region: RegionEndpoint.USEast1))
+
             {
-                var request = new Amazon.Polly.Model.SynthesizeSpeechRequest();
+                var request = new SynthesizeSpeechRequest();
                 request.Text = word;
                 request.OutputFormat = OutputFormat.Mp3;
                 request.LanguageCode = LanguageCode.EnUS;
                 request.VoiceId = VoiceId.Astrid;
-                var response = client.SynthesizeSpeechAsync(request).GetAwaiter().GetResult();
+                var resp = client.DescribeVoicesAsync(new DescribeVoicesRequest()).GetAwaiter().GetResult();
 
-                string path = pathFolder;
-                DirectoryInfo dirInfo = new DirectoryInfo(path);
-                if (!dirInfo.Exists)
-                {
-                    dirInfo.Create();
-                }
-                string outpuName = pathFolder + "/" + word + ".mp3";
-                FileStream output = File.Open(outpuName, FileMode.OpenOrCreate);
-                response.AudioStream.CopyTo(output);
+
+                var resp2 = client.ListLexiconsAsync(new ListLexiconsRequest()).GetAwaiter().GetResult();
+
+
+                var resp5 = client.ListSpeechSynthesisTasksAsync(new ListSpeechSynthesisTasksRequest()).GetAwaiter()
+                    .GetResult();
+
+
+                var response = client.SynthesizeSpeechAsync(request: request).GetAwaiter().GetResult();
+
+
+                var path = pathFolder;
+                var dirInfo = new DirectoryInfo(path: path);
+                if (!dirInfo.Exists) dirInfo.Create();
+                var outpuName = pathFolder + "/" + word + ".mp3";
+                var output = File.Open(path: outpuName, mode: FileMode.OpenOrCreate);
+                response.AudioStream.CopyTo(destination: output);
                 output.Close();
                 //  output.Flush();  //!!!!!!!
             }
         }
 
+        ///Получение списка всех возможных голосов для озвучивания
+        public ObservableCollection<VoicesLang> GetVoices()
+        {
+            var voicesLang = new ObservableCollection<VoicesLang>();
+            using (var client = new AmazonPollyClient(credentials: awsCredentials, region: RegionEndpoint.USEast1))
+            {
+                var resp = client.DescribeVoicesAsync(new DescribeVoicesRequest()).GetAwaiter().GetResult();
+
+                foreach (var item in resp.Voices)
+                    voicesLang.Add(new VoicesLang()
+                    {
+                        Lang = item.LanguageName,
+                        Voice = item.Name
+                    });
+            }
+
+            return voicesLang;
+        }
     }
 }

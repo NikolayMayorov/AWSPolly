@@ -104,18 +104,7 @@
                         </GroupBox>
 
                         <StackPanel Margin="20,0,0,0" Orientation="Vertical">
-                            <!--<Button
-                                Width="150"
-                                Height="30"
-                                VerticalAlignment="Center"
-                                Content="Добавить в фильтр"
-                                ToolTip="Добавить в фильтр выделенные слова" />
-                            <Button
-                                Width="150"
-                                Height="30"
-                                VerticalAlignment="Center"
-                                Content="Отфильтровать"
-                                ToolTip="Отфильтровать выделенные слова" />-->
+
 
 
                            <StackPanel Orientation="Vertical">
@@ -137,7 +126,7 @@
                                        HorizontalAlignment="Right"
                                        Command="{Binding GetVoice}"
                                        Content="Озвучить"
-                                       ToolTip="Озвучить выделенные слова из списка не отфильтрованных" />
+                                       ToolTip="Озвучить выделенные слова из списка" />
 
                                </StackPanel>
 
@@ -186,20 +175,58 @@
 
             <TabItem Header="Настройки">
                 <StackPanel Orientation="Vertical" Margin="10">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Язык для озвучивания:" Width="150"></TextBlock>
-                        <ComboBox Margin="10, 0, 0, 0" Width="150" ></ComboBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
-                        <TextBlock Text="Голос для озвучивания:" Width="150" ></TextBlock>
-                        <ComboBox Margin="10, 0, 0, 0" Width="150"></ComboBox>
-                    </StackPanel>
+
 
                     <StackPanel Orientation="Horizontal"  Margin="0, 10, 0, 0">
                         <TextBlock Text="Путь для сохранения звуковых файлов: " Width="230"></TextBlock>
                         <TextBlock Text="{Binding PathFolderAudio, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"  Width="auto"></TextBlock>
                     </StackPanel>
                     <Button Content="Указать путь" Command="{Binding OpenSaveFolder}" Width="200" HorizontalAlignment="Left"  Margin="0, 10, 0, 0"></Button>
+
+                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                        <TextBlock Width="100">Access Key:</TextBlock>
+                        <TextBox Margin="0, 0, 0, 0" MinWidth="300" Text ="{Binding AccessKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0 ,0">
+                        <TextBlock Width="100">Secret Key:</TextBlock>
+                        <TextBox Margin="0, 0, 0, 0" MinWidth="300" Text ="{Binding SecretKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
+                    </StackPanel>
+                    <Button Content="Соединение с Amazon Polly" Margin="0, 10, 0, 0" Command="{Binding ConnectAWSPolly}"></Button>
+
+                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                        <TextBlock Text="Язык озвучивания:" Width="150"></TextBlock>
+                        <ComboBox Margin="10, 0, 0, 0" Width="150" ItemsSource="{Binding VoiceLang}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="model:VoicesLang">
+                                    <TextBlock Margin="5,0,0,0" Text="{Binding Lang}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+
+
+
+
+
+
+                     
+
+
+
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                        <TextBlock Text="Голос озвучивания:" Width="150"></TextBlock>
+                        <ComboBox Margin="10, 0, 0, 0" Width="150" ItemsSource="{Binding VoiceLang}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="model:VoicesLang">
+                                    <TextBlock Margin="5,0,0,0" Text="{Binding Voice}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
                 </StackPanel>
 
             </TabItem>

@@ -48,8 +48,9 @@ namespace VoiceWordAWS.ViewModels
 
         private string _secretKey = "akoHSIHS7otYQRNv42CTFkTtOgAtAdxxaYv8es0W";//String.Empty;
 
-        
+        private VoiceId _voice;
 
+        private ObservableCollection<VoicesLang> _voiceLang = new ObservableCollection<VoicesLang>();
 
         #region default settings
 
@@ -90,8 +91,12 @@ namespace VoiceWordAWS.ViewModels
             SelectAll = new RelayCommand(execute: OnSelectAll, canExecute: CanSelectAll);
             DeselectAll = new RelayCommand(execute: OnDeselectAll, canExecute: CanDeselectAll);
             OpenSaveFolder = new RelayCommand(execute: OnOpenSaveFolder);
+            ConnectAWSPolly = new RelayCommand(execute: OnConnectAWSPolly, CanConnectAWSPolly);
+
+
             this.dialogService = dialogService;
         }
+
 
         private void OnOpenSaveFolder()
         {
@@ -119,6 +124,8 @@ namespace VoiceWordAWS.ViewModels
         public RelayCommand DeselectAll { get; set; }
 
         public RelayCommand OpenSaveFolder { get; set; }
+
+        public RelayCommand ConnectAWSPolly { get; set; }
 
         public string PathFolderAudio
         {
@@ -168,6 +175,22 @@ namespace VoiceWordAWS.ViewModels
                 Set(field: ref _secretKey, newValue: value);
                 GetVoice.RaiseCanExecuteChanged();
             }
+        }
+
+        public VoiceId Voice
+        {
+            get => _voice;
+            set
+            {
+                Set(ref _voice, value);
+             
+            }
+        }
+
+        public ObservableCollection<VoicesLang> VoiceLang
+        {
+            get => _voiceLang;
+            set => Set(field: ref _voiceLang, newValue: value);
         }
 
         public ObservableCollection<Word> Words
@@ -257,6 +280,18 @@ namespace VoiceWordAWS.ViewModels
             }
             
         }
+
+        private bool CanConnectAWSPolly()
+        {
+            return true;
+        }
+
+        private void OnConnectAWSPolly()
+        {
+            _polly = new PollyModel(_accessKey, _secretKey);
+            VoiceLang = _polly.GetVoices();
+        }
+
 
         #endregion
     }
