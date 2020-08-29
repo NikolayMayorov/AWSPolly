@@ -18,6 +18,7 @@ namespace VoiceWordAWS.ViewModels
 
             services.Register<MainWindowViewModel>();
             services.Register<TextService>();
+           
         }
 
         public MainWindowViewModel MainWindowModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();

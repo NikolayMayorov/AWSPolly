@@ -15,11 +15,9 @@ namespace VoiceWordAWS.Model
 
         private readonly BasicAWSCredentials awsCredentials;
 
-     //   private  string pathFolder = String.Empty;
 
         public PollyModel(string accessKey, string secretKey)
         {
-            // awsCredentials = new BasicAWSCredentials("AKIAJQIYI4VDPPE43BEA", "akoHSIHS7otYQRNv42CTFkTtOgAtAdxxaYv8es0W");
             awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
         }
 
@@ -34,14 +32,12 @@ namespace VoiceWordAWS.Model
                 request.VoiceId = VoiceId.Astrid;
                 var response = client.SynthesizeSpeechAsync(request).GetAwaiter().GetResult();
 
-                //string path = @"C:\SomeDir";
                 string path = pathFolder;
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
                 if (!dirInfo.Exists)
                 {
                     dirInfo.Create();
                 }
-
                 string outpuName = pathFolder + "/" + word + ".mp3";
                 FileStream output = File.Open(outpuName, FileMode.OpenOrCreate);
                 response.AudioStream.CopyTo(output);

@@ -6,12 +6,14 @@
     xmlns:local="clr-namespace:VoiceWordAWS"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:VoiceWordAWS.Model"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     Title="{Binding Title}"
     Width="1280"
     Height="720"
     DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    md:DialogServiceViews.IsRegistered="True">
 
 
     <DockPanel>
@@ -20,7 +22,6 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Закрыть" />
             </MenuItem>
-            <MenuItem Header="Настройки" />
         </Menu>
         <TabControl>
             <TabItem Header="Поиск и озвучивание слов">
@@ -181,6 +182,29 @@
 
                 </StackPanel>
             </TabItem>
+
+
+            <TabItem Header="Настройки">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Язык для озвучивания:" Width="150"></TextBlock>
+                        <ComboBox Margin="10, 0, 0, 0" Width="150" ></ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                        <TextBlock Text="Голос для озвучивания:" Width="150" ></TextBlock>
+                        <ComboBox Margin="10, 0, 0, 0" Width="150"></ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"  Margin="0, 10, 0, 0">
+                        <TextBlock Text="Путь для сохранения звуковых файлов: " Width="230"></TextBlock>
+                        <TextBlock Text="{Binding PathFolderAudio, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"  Width="auto"></TextBlock>
+                    </StackPanel>
+                    <Button Content="Указать путь" Command="{Binding OpenSaveFolder}" Width="200" HorizontalAlignment="Left"  Margin="0, 10, 0, 0"></Button>
+                </StackPanel>
+
+            </TabItem>
+
+
 
             <TabItem Header="Фильтр" />
 
