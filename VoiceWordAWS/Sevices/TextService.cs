@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -117,6 +118,33 @@ namespace VoiceWordAWS.Sevices
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Фильтр уже озвученных слов из папки с адресом path
+        /// </summary>
+
+        public IEnumerable<string> FilterVoicedWords(IEnumerable<string>words, string path)
+        {
+            var pattern = @"(?<=/)[\w\W]*?(?=\.mp3)";
+            var regex = new Regex(pattern: pattern, options: RegexOptions.IgnoreCase);
+            string[] files = Directory.GetFiles(path);
+            List<string> str = new List<string>();
+            List<string> result = new List<string>();
+            foreach (var item in files)
+            {
+                str.Add(item.Replace(@"\", "/"));
+            }
+
+            foreach (var item in str)
+            {
+                var temp = regex.Match(item).Value.Split('/').Last();
+                if (!string.IsNullOrWhiteSpace(temp)) 
+                    result.Add(temp);
+            }
+   
+          
+            return words.Except(result);
         }
 
 

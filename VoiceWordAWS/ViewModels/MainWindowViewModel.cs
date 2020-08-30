@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -298,13 +299,17 @@ namespace VoiceWordAWS.ViewModels
             var resEng = _textService.GetEngText(text: resSimple);
 
             var arr = _textService.GetWords(text: resEng);
+            var filtredArr = _textService.FilterVoicedWords(arr, _pathFolderAudio);
             _words.Clear();
-            foreach (var w in arr)
+            foreach (var w in filtredArr)
                 _words.Add(new Word
                 {
                     Value = w,
                     IsChecked = false
                 });
+
+
+
         }
 
         private bool CanDeselectAll()
