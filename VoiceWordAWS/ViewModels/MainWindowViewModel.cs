@@ -50,13 +50,18 @@ namespace VoiceWordAWS.ViewModels
 
         private VoiceId _voice;
 
-        private ObservableCollection<VoicesLang> _voiceLang = new ObservableCollection<VoicesLang>();
+        private List<VoicesLang> _voiceLang = new List<VoicesLang>();
 
         private string _currentVoice;
 
         private string _currentLang;
 
-        private VoicesLang __currentVoicesLang;
+        private VoicesLang _currentVoicesLang;
+
+
+        private ObservableCollection<string> _availableVoices= new ObservableCollection<string>();
+
+        private ObservableCollection<string> _availableLanguages= new ObservableCollection<string>();
 
         #region default settings
 
@@ -92,7 +97,8 @@ namespace VoiceWordAWS.ViewModels
                 _settingsService.SaveSettings(_settings);
             }
             _pathFolderAudio = _settings.PathFolderAudio;
-            
+            _currentLang = _settings.Language;
+            _currentVoice = _settings.Voice;
 
             GetText = new RelayCommand(execute: OnGetText, canExecute: CanOnGetText);
             GetVoice = new RelayCommand(execute: OnGetVoice, canExecute: CanGetVoice);
@@ -191,11 +197,10 @@ namespace VoiceWordAWS.ViewModels
             set
             {
                 Set(ref _voice, value);
-             
             }
         }
 
-        public ObservableCollection<VoicesLang> VoiceLang
+        public List<VoicesLang> VoiceLang
         {
             get => _voiceLang;
             set => Set(field: ref _voiceLang, newValue: value);
@@ -213,18 +218,60 @@ namespace VoiceWordAWS.ViewModels
             set
             {
                 Set(field: ref _currentVoice, newValue: value);
+                Settings settings = _settingsService.GetSettings();
+                _settingsService.SaveSettings(new Settings()
+                {
+                    Voice = CurrentVoice,
+                    PathFolderAudio = settings.PathFolderAudio,
+                    Language = settings.Language
+                });
             }
         }
 
-        public VoicesLang CurrentVoicesLang
+        public string CurrentLang
         {
-            get => __currentVoicesLang;
+            get => _currentLang;
             set
             {
-                Set(field: ref __currentVoicesLang, newValue: value);
+                Set(field: ref _currentLang, newValue: value);
+                Settings settings = _settingsService.GetSettings();
+                _settingsService.SaveSettings(new Settings()
+                {
+                    Voice = settings.Voice,
+                    PathFolderAudio = settings.PathFolderAudio,
+                    Language = _currentLang
+                });
             }
         }
 
+        //public VoicesLang CurrentVoicesLang
+        //{
+        //    get => _currentVoicesLang;
+        //    set
+        //    {
+        //        Set(field: ref _currentVoicesLang, newValue: value);
+        //    }
+        //}
+
+        public ObservableCollection<string> AvailableVoices
+        {
+            get => _availableVoices;
+            set
+            {
+                Set(field: ref _availableVoices, newValue: value);
+            }
+        }
+
+        public ObservableCollection<string> AvailableLanguages
+        {
+            get => _availableLanguages;
+            set
+            {
+                Set(field: ref _availableLanguages, newValue: value);
+            }
+        }
+
+       
         #region Commands
 
         private bool CanOnGetText()
@@ -300,8 +347,7 @@ namespace VoiceWordAWS.ViewModels
             foreach (var item in _words)
             {
                 if (item.IsChecked)
-                    //   _polly.VoiсeWord(item.Value, "Audio");
-                    _polly.VoiсeWord(item.Value, _pathFolderAudio);
+                    _polly.VoiсeWord(item.Value, _pathFolderAudio, _currentVoice, _currentLang);
             }
             
         }
@@ -315,9 +361,15 @@ namespace VoiceWordAWS.ViewModels
         {
             _polly = new PollyModel(_accessKey, _secretKey);
             VoiceLang = _polly.GetVoices();
+            foreach (var item in _voiceLang)
+            { 
+                AvailableVoices.Add(item.Voice);
+                AvailableLanguages.Add(item.Lang);
+            }
+
             CurrentVoice = _settingsService.GetSettings().Voice;
             _currentLang = _settingsService.GetSettings().Language;
-            CurrentVoicesLang = new VoicesLang()
+            _currentVoicesLang = new VoicesLang()
             {
                 Lang = _settingsService.GetSettings().Language,
                 Voice = _settingsService.GetSettings().Voice

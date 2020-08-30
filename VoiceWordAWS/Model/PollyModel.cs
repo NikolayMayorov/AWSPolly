@@ -19,7 +19,7 @@ namespace VoiceWordAWS.Model
             awsCredentials = new BasicAWSCredentials(accessKey: accessKey, secretKey: secretKey);
         }
 
-        public void VoiсeWord(string word, string pathFolder)
+        public void VoiсeWord(string word, string pathFolder, string voiceID, string langId)
         {
             using (var client = new AmazonPollyClient(credentials: awsCredentials, region: RegionEndpoint.USEast1))
 
@@ -27,8 +27,8 @@ namespace VoiceWordAWS.Model
                 var request = new SynthesizeSpeechRequest();
                 request.Text = word;
                 request.OutputFormat = OutputFormat.Mp3;
-                request.LanguageCode = LanguageCode.EnUS;
-                request.VoiceId = VoiceId.Astrid;
+                request.LanguageCode = langId;
+                request.VoiceId = voiceID;
                 var resp = client.DescribeVoicesAsync(new DescribeVoicesRequest()).GetAwaiter().GetResult();
 
 
@@ -53,10 +53,9 @@ namespace VoiceWordAWS.Model
             }
         }
 
-        ///Получение списка всех возможных голосов для озвучивания
-        public ObservableCollection<VoicesLang> GetVoices()
+        public List<VoicesLang> GetVoices()
         {
-            var voicesLang = new ObservableCollection<VoicesLang>();
+            var voicesLang = new List<VoicesLang>();
             using (var client = new AmazonPollyClient(credentials: awsCredentials, region: RegionEndpoint.USEast1))
             {
                 var resp = client.DescribeVoicesAsync(new DescribeVoicesRequest()).GetAwaiter().GetResult();

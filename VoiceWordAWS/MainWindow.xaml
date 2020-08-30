@@ -5,15 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:VoiceWordAWS"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="clr-namespace:VoiceWordAWS.Model"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    xmlns:model="clr-namespace:VoiceWordAWS.Model"
     Title="{Binding Title}"
     Width="1280"
     Height="720"
+    md:DialogServiceViews.IsRegistered="True"
     DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d"
-    md:DialogServiceViews.IsRegistered="True">
+    mc:Ignorable="d">
 
 
     <DockPanel>
@@ -107,28 +107,20 @@
 
 
 
-                           <StackPanel Orientation="Vertical">
-                               <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="100">Access Key:</TextBlock>
-                                    <TextBox Margin="0, 0, 0, 0" MinWidth="300" Text ="{Binding AccessKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
+                            <StackPanel Orientation="Vertical">
+                 
+
+                                <StackPanel Margin="0,10,0,0" Orientation="Vertical">
+                                    <Button
+                                        Width="150"
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding GetVoice}"
+                                        Content="Озвучить"
+                                        ToolTip="Озвучить выделенные слова из списка" />
+
                                 </StackPanel>
-
-                               <StackPanel Orientation="Horizontal" Margin="0, 10, 0 ,0">
-                                    <TextBlock Width="100">Secret Key:</TextBlock>
-                                    <TextBox Margin="0, 0, 0, 0" MinWidth="300" Text ="{Binding SecretKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
-                               </StackPanel>
-
-                               <StackPanel Margin="0, 10 ,0,0" Orientation="Vertical">
-                                   <Button
-                                       Width="150"
-                                       Height="30"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Right"
-                                       Command="{Binding GetVoice}"
-                                       Content="Озвучить"
-                                       ToolTip="Озвучить выделенные слова из списка" />
-
-                               </StackPanel>
 
                             </StackPanel>
 
@@ -145,47 +137,58 @@
 
 
             <TabItem Header="Настройки">
-                <StackPanel Orientation="Vertical" Margin="10">
+                <StackPanel Margin="10" Orientation="Vertical">
 
 
-                    <StackPanel Orientation="Horizontal"  Margin="0, 10, 0, 0">
-                        <TextBlock Text="Путь для сохранения звуковых файлов: " Width="230"></TextBlock>
-                        <TextBlock Text="{Binding PathFolderAudio, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"  Width="auto"></TextBlock>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <TextBlock Width="230" Text="Путь для сохранения звуковых файлов: " />
+                        <TextBlock Width="auto" Text="{Binding PathFolderAudio, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
                     </StackPanel>
-                    <Button Content="Указать путь" Command="{Binding OpenSaveFolder}" Width="200" HorizontalAlignment="Left"  Margin="0, 10, 0, 0"></Button>
+                    <Button
+                        Width="200"
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Left"
+                        Command="{Binding OpenSaveFolder}"
+                        Content="Указать путь" />
 
-                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                         <TextBlock Width="100">Access Key:</TextBlock>
-                        <TextBox Margin="0, 0, 0, 0" MinWidth="300" Text ="{Binding AccessKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
+                        <TextBox
+                            MinWidth="300"
+                            Margin="0,0,0,0"
+                            Text="{Binding AccessKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0 ,0">
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                         <TextBlock Width="100">Secret Key:</TextBlock>
-                        <TextBox Margin="0, 0, 0, 0" MinWidth="300" Text ="{Binding SecretKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
+                        <TextBox
+                            MinWidth="300"
+                            Margin="0,0,0,0"
+                            Text="{Binding SecretKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     </StackPanel>
-                    <Button Content="Соединение с Amazon Polly" Margin="0, 10, 0, 0" Command="{Binding ConnectAWSPolly}"></Button>
+                    <Button
+                        Margin="0,10,0,0"
+                        Command="{Binding ConnectAWSPolly}"
+                        Content="Соединение с Amazon Polly" />
 
-                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
-                        <TextBlock Text="Язык озвучивания:" Width="150"></TextBlock>
-                        <ComboBox Margin="10, 0, 0, 0" Width="150" ItemsSource="{Binding VoiceLang}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate DataType="model:VoicesLang">
-                                    <TextBlock Margin="5,0,0,0" Text="{Binding Lang}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-
-
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <TextBlock Width="150" Text="Язык озвучивания:" />
+                        <ComboBox
+                            Width="150"
+                            Margin="10,0,0,0"
+                            IsSynchronizedWithCurrentItem="True"
+                            ItemsSource="{Binding AvailableLanguages, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding CurrentLang, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
-                        <TextBlock Text="Голос озвучивания:" Width="150"></TextBlock>
-                        <ComboBox Margin="10, 0, 0, 0" Width="150" ItemsSource="{Binding VoiceLang, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding CurrentVoice, UpdateSourceTrigger=PropertyChanged}" IsSynchronizedWithCurrentItem="True">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate DataType="model:VoicesLang">
-                                    <TextBlock Margin="5,0,0,0" Text="{Binding Voice}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <TextBlock Width="150" Text="Голос озвучивания:" />
+                        <ComboBox
+                            Width="150"
+                            Margin="10,0,0,0"
+                            IsSynchronizedWithCurrentItem="True"
+                            ItemsSource="{Binding AvailableVoices, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding CurrentVoice, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                 </StackPanel>
@@ -194,7 +197,7 @@
 
 
 
-         
+
 
             <TabItem Header="Редактирование" />
 
