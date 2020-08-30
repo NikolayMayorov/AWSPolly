@@ -64,8 +64,8 @@ namespace VoiceWordAWS.Model
                 foreach (var item in resp.Voices)
                     voicesLang.Add(new VoicesLang()
                     {
-                        Lang = item.LanguageName,
-                        Voice = item.Name
+                        Lang = item.LanguageCode,
+                        Voice = item.Id
                     });
             }
 

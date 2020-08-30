@@ -52,6 +52,12 @@ namespace VoiceWordAWS.ViewModels
 
         private ObservableCollection<VoicesLang> _voiceLang = new ObservableCollection<VoicesLang>();
 
+        private string _currentVoice;
+
+        private string _currentLang;
+
+        private VoicesLang __currentVoicesLang;
+
         #region default settings
 
         private readonly VoiceId __VOICE = VoiceId.Kendra;
@@ -77,14 +83,16 @@ namespace VoiceWordAWS.ViewModels
             {
                 _settings = new Settings()
                 {
-                    Language = __LANGUAGE,
-                    Voice = __VOICE,
+                    Language = __LANGUAGE.Value,
+                    Voice = __VOICE.Value,
                     PathFolderAudio = __PATH_FOLDER_AUDIO
+
                 };
          
                 _settingsService.SaveSettings(_settings);
             }
             _pathFolderAudio = _settings.PathFolderAudio;
+            
 
             GetText = new RelayCommand(execute: OnGetText, canExecute: CanOnGetText);
             GetVoice = new RelayCommand(execute: OnGetVoice, canExecute: CanGetVoice);
@@ -199,6 +207,23 @@ namespace VoiceWordAWS.ViewModels
             set => Set(field: ref _words, newValue: value);
         }
 
+        public string CurrentVoice
+        {
+            get => _currentVoice;
+            set
+            {
+                Set(field: ref _currentVoice, newValue: value);
+            }
+        }
+
+        public VoicesLang CurrentVoicesLang
+        {
+            get => __currentVoicesLang;
+            set
+            {
+                Set(field: ref __currentVoicesLang, newValue: value);
+            }
+        }
 
         #region Commands
 
@@ -290,6 +315,13 @@ namespace VoiceWordAWS.ViewModels
         {
             _polly = new PollyModel(_accessKey, _secretKey);
             VoiceLang = _polly.GetVoices();
+            CurrentVoice = _settingsService.GetSettings().Voice;
+            _currentLang = _settingsService.GetSettings().Language;
+            CurrentVoicesLang = new VoicesLang()
+            {
+                Lang = _settingsService.GetSettings().Language,
+                Voice = _settingsService.GetSettings().Voice
+            };
         }
 
 

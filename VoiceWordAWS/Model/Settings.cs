@@ -14,9 +14,13 @@ namespace VoiceWordAWS.Model
    
 
         public string PathFolderAudio { get; set; }
-      //  [JsonConverter(typeof(LanguageCode))]
-        public LanguageCode Language{ get; set; }
-    //    [JsonConverter(typeof(VoiceId))]
-        public VoiceId Voice { get; set; }
+ 
+        //public LanguageCode Language{ get; set; }
+   
+        //public VoiceId Voice { get; set; }
+
+        public string Language { get; set; }
+
+        public string Voice { get; set; }
     }
 }
